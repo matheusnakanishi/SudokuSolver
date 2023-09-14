@@ -69,7 +69,16 @@ void printSudoku(int mat[9][9])
 }
 
 //adicionar funções de verificar linha, coluna e quadrante
+bool scanColumn(int mat[9][9], int j, int num)
+{
+    for (int i = 0; i < 9; i++)
+    {
+        if (mat[i][j] == num)
+            return false;
+    }
 
+    return true;
+}
 
 bool validPosition(int mat[9][9], int x, int y, int num) //Chama as funções de linha, coluna e quadrante
 {
