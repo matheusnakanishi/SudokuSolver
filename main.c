@@ -68,6 +68,51 @@ void printSudoku(int mat[9][9])
     printf("%c\n\n\n",188);
 }
 
+//adicionar funções de verificar linha, coluna e quadrante
+
+
+bool validPosition(int mat[9][9], int x, int y, int num) //Chama as funções de linha, coluna e quadrante
+{
+    return scan_row(mat,x,num) && scan_column(mat,y,num) && scan_square(mat,x,y,num);
+}
+
+bool findEmptyPosition(int mat[9][9], int *row, int *column) //Procura posição vazia na matriz caso houver
+{
+    for (*row = 0; *row < 9; (*row)++)
+    {
+        for (*column = 0; *column < 9; (*column)++)
+        {
+            if (mat[*row][*column] == 0)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+bool sudokuSolver(int mat[9][9])
+{
+    int row, column;
+
+    if (!find_empty_position(mat,&row,&column))
+        return true; //Todas posições completadas
+
+    for (int num = 1; num <= 9; num++)
+    {
+        if (valid_position(mat,row,column,num))
+        {
+            mat[row][column] = num;
+
+            if (sudoku_solver(mat)) //Recursão
+                return true;
+
+            mat[row][column] = 0;
+        }
+    }
+
+    return false;
+}
+
 int main()
 {
     //Matriz exemplo
