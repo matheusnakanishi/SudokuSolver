@@ -162,18 +162,18 @@ int main()
 {
     int mat[9][9];
 
-    char file_name[50] = "sudokuMatrix.txt";
-    read_matrix(mat,file_name);
+    char fileName[50] = "sudokuMatrix.txt";
+    read_matrix(mat,fileName);
 
-    if (sudoku_solver(mat))
+    if (sudokuSolver(mat))
     {
-        printf("\n\t\t\t\t\t\t    Sudoku solved\n");
-        print_sudoku(mat);
+        printf("\n\t\t\t\t\t\t    SUDOKU RESOLVIDO\n");
+        printSudoku(mat);
     }
     else
     {
-        printf("\n\t\t\t\t\t\t    Sudoku without solution\n");
-        print_sudoku(mat);
+        printf("\n\t\t\t\t\t\t    SUDOKU SEM SOLUCAO\n");
+        printSudoku(mat);
     }
 
     return 0;
