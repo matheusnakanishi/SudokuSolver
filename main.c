@@ -2,6 +2,17 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+void readMatrix(int mat[9][9], const char *file_name)
+{
+    FILE *file = fopen(file_name,"r");
+
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+            fscanf(file,"%d",&mat[i][j]);
+    }
+}
+
 void printSudoku(int mat[9][9])
 {
     printf("\n\t\t\t\t\t%c",201);
@@ -68,7 +79,6 @@ void printSudoku(int mat[9][9])
     printf("%c\n\n\n",188);
 }
 
-//adicionar funções de verificar linha, coluna e quadrante
 bool scanColumn(int mat[9][9], int j, int num)
 {
     for (int i = 0; i < 9; i++)
@@ -80,9 +90,35 @@ bool scanColumn(int mat[9][9], int j, int num)
     return true;
 }
 
+bool scanSquare(int mat[9][9], int x, int y, int num)
+{
+    if (x < 3)
+        x = 0;
+    else if (x < 6)
+        x = 3;
+    else
+        x = 6;
+
+    if (y < 3)
+        y = 0;
+    else if (y < 6)
+        y = 3;
+    else
+        y = 6;
+
+    for (int i = x; i < x+3; i++)
+    {
+        for (int j = y; j < y+3; j++)
+            if (mat[i][j] == num)
+                return false;
+    }
+
+    return true;
+}
+
 bool validPosition(int mat[9][9], int x, int y, int num) //Chama as funções de linha, coluna e quadrante
 {
-    return scan_row(mat,x,num) && scan_column(mat,y,num) && scan_square(mat,x,y,num);
+    return scanRow(mat,x,num) && scanColumn(mat,y,num) && scanSquare(mat,x,y,num);
 }
 
 bool findEmptyPosition(int mat[9][9], int *row, int *column) //Procura posição vazia na matriz caso houver
@@ -103,16 +139,16 @@ bool sudokuSolver(int mat[9][9])
 {
     int row, column;
 
-    if (!find_empty_position(mat,&row,&column))
+    if (!findEmptyPosition(mat,&row,&column))
         return true; //Todas posições completadas
 
-    for (int num = 1; num <= 9; num++)
+    for (int num = 1; num <= 9; num++) //Testa valores de 1 até 9
     {
-        if (valid_position(mat,row,column,num))
+        if (validPosition(mat,row,column,num)) //Verifica se o valor é válido na posição
         {
             mat[row][column] = num;
 
-            if (sudoku_solver(mat)) //Recursão
+            if (sudokuSolver(mat)) //Recursão
                 return true;
 
             mat[row][column] = 0;
@@ -124,22 +160,21 @@ bool sudokuSolver(int mat[9][9])
 
 int main()
 {
-    //Matriz exemplo
-     int mat[9][9] = {
-        {5, 3, 0, 0, 7, 0, 0, 0, 0},
-        {6, 0, 0, 1, 9, 5, 0, 0, 0},
-        {0, 9, 8, 0, 0, 0, 0, 6, 0},
-        {8, 0, 0, 0, 6, 0, 0, 0, 3},
-        {4, 0, 0, 8, 0, 3, 0, 0, 1},
-        {7, 0, 0, 0, 2, 0, 0, 0, 6},
-        {0, 6, 0, 0, 0, 0, 2, 8, 0},
-        {0, 0, 0, 4, 1, 9, 0, 0, 5},
-        {0, 0, 0, 0, 8, 0, 0, 7, 9}
-    };
+    int mat[9][9];
 
-    printSudoku(mat);
+    char file_name[50] = "sudokuMatrix.txt";
+    read_matrix(mat,file_name);
 
-
+    if (sudoku_solver(mat))
+    {
+        printf("\n\t\t\t\t\t\t    Sudoku solved\n");
+        print_sudoku(mat);
+    }
+    else
+    {
+        printf("\n\t\t\t\t\t\t    Sudoku without solution\n");
+        print_sudoku(mat);
+    }
 
     return 0;
 }
