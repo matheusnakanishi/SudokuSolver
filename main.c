@@ -79,6 +79,17 @@ void printSudoku(int mat[9][9])
     printf("%c\n\n\n",188);
 }
 
+bool scanRow(int mat[9][9], int i, int num)
+{
+    for (int j = 0; j < 9; j++)
+    {
+        if (mat[i][j] == num)
+            return false;
+    }
+
+    return true;
+}
+
 bool scanColumn(int mat[9][9], int j, int num)
 {
     for (int i = 0; i < 9; i++)
@@ -163,7 +174,7 @@ int main()
     int mat[9][9];
 
     char fileName[50] = "sudokuMatrix.txt";
-    read_matrix(mat,fileName);
+    readMatrix(mat,fileName);
 
     if (sudokuSolver(mat))
     {
