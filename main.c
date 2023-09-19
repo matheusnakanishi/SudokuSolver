@@ -76,7 +76,7 @@ void printSudoku(int mat[9][9])
             printf("%c",202);
         printf("%c",205);
     }
-    printf("%c\n\n\n",188);
+    printf("%c\n\n\n\n\n\n\n",188);
 }
 
 bool scanRow(int mat[9][9], int i, int num)
@@ -173,17 +173,17 @@ int main()
 {
     int mat[9][9];
 
-    char fileName[50] = "sudokuMatrix.txt";
+    char fileName[50] = "semSolucao.txt";
     readMatrix(mat,fileName);
 
     if (sudokuSolver(mat))
     {
-        printf("\n\t\t\t\t\t\t    SUDOKU RESOLVIDO\n");
+        printf("\n\n\n\n\n\t\t\t\t\t\t  SUDOKU RESOLVIDO\n");
         printSudoku(mat);
     }
     else
     {
-        printf("\n\t\t\t\t\t\t    SUDOKU SEM SOLUCAO\n");
+        printf("\n\n\n\n\n\t\t\t\t\t\t  SUDOKU SEM SOLUCAO\n");
         printSudoku(mat);
     }
 
